@@ -4,6 +4,7 @@ Example Dashboard: https://www.arcgis.com/apps/dashboards/bda7594740fd4029942346
 
 Project Proposal
 Show the effects/spread of COVID-19 from 01/22/2020 - 07/27/2020
+
 Create 3 Unique Views of the Data
  * Filter by Continent, drill down to country
     - World Map View of cases per country
