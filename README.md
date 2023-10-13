@@ -16,8 +16,8 @@ Create 3 Unique Views of the Data
 
 Requirements
 
-  *JavaScript Library that has not been shown in class
   * Dashboard page with multiple charts that all reference the same data (Leaflet)
+  * JavaScript Library not covered in class
   * House the data in a SQL database
   * Create a Python Flask API
   * Includes a HTML/CSS
