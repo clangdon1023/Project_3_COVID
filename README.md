@@ -6,12 +6,14 @@ Project Proposal
 
 Create 3 Unique Views of the Data
  * Filter by Continent, drill down to country
- * World Map View of cases per country
+    - World Map View of cases per country
  * Roll-up total of deaths
- * Bubble sliding scale of spread over time
+ * Sliding scale of spread over time
+    - Have a bubble shape over the map to show the spread
  * Narrow down to US visuals since that has the most data
 
 Requirements
+
   *JavaScript Library that has not been shown in class
   * Dashboard page with multiple charts that all reference the same data (Leaflet)
   * House the data in a SQL database
