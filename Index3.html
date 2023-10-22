@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COVID-19 Map</title>
+  <!-- Include Leaflet CSS and JavaScript -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+  <!-- Include MarkerCluster CSS and JavaScript -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+  <style>
+    /* Add some CSS styles for your map container */
+    #map {
+      height: 400px;
+    }
+
+    /* Add a style for cluster markers to appear above the base map */
+    .country-marker {
+      z-index: 1000;
+      background-color: #3388ff; /* Customize the cluster marker appearance */
+      color: #fff;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Create a date input field for filtering data -->
+  <label for="dateFilter">Select a Date: </label>
+  <select id="dateFilter"></select>
+  <br><br>
+  <!-- Create a map container -->
+  <div id="map"></div>
+
+  <script>
+    var map = L.map('map').setView([0, 0], 2);
+    var markers = []; // Store markers to easily clear them
+
+    // Set up the OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Create a cluster layer
+    var clusterLayer = L.markerClusterGroup();
+
+    // Fetch data from your Flask API and populate the date filter dropdown
+    fetch('http://127.0.0.1:5000/api/v1.0/covid')
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        var dateFilter = document.getElementById("dateFilter");
+        var uniqueDates = [...new Set(data.map(record => record.Date))];
+
+        uniqueDates.forEach(function (date) {
+          var option = document.createElement("option");
+          option.value = date;
+          option.text = date;
+          dateFilter.appendChild(option);
+        });
+
+        // Add an event listener to update the markers when the date changes
+        dateFilter.addEventListener("change", function (event) {
+          fetchData(event.target.value);
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    // Fetch and display the data based on the selected date
+    function fetchData(selectedDate) {
+      clusterLayer.clearLayers(); // Clear existing markers
+
+      fetch('http://127.0.0.1:5000/api/v1.0/covid')
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          data.forEach(function (record) {
+            var Lat = parseFloat(record["Lat"]);
+            var Long = parseFloat(record["Long"]);
+            var Date = record["Date"];
+
+            // Convert the date format to match the selected date
+            var selectedDateFormatted = selectedDate.split('-').reverse().join('/');
+
+            // Check if the Lat and Long values are valid and match the selected date
+            if (!isNaN(Lat) && !isNaN(Long) && Date === selectedDateFormatted) {
+              var Country_Region = record["Country_Region"];
+              var Confirmed = parseInt(record["Confirmed"]);
+              var Deaths = parseInt(record["Deaths"]);
+
+              // Create an individual marker for each data point
+              var popupContent =
+                `<b>Location:</b> ${Country_Region}<br>` +
+                `<b>Confirmed Cases:</b> ${Confirmed}<br>` +
+                `<b>Deaths:</b> ${Deaths}`;
+
+              var marker = L.marker([Lat, Long])
+                .bindPopup(popupContent);
+              clusterLayer.addLayer(marker);
+            }
+          });
+
+          // Add the cluster layer to the map
+          map.addLayer(clusterLayer);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  </script>
+</body>
+</html>
