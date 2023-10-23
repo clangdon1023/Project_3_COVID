@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Leaflet CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    <h1>Covid-19 Information</h1>
+    
+    <!-- Add a dropdown for dates -->
+    <label for="dateDropdown">Select a Date:</label>
+    <select id="dateDropdown"></select>
+    
+    <!-- Add a dropdown for case types -->
+    <label for="caseTypeDropdown">Select Case Type:</label> <!-- Fixed the "label for" attribute -->
+    <select id="caseTypeDropdown">
+        <option value="Active">Active Cases</option>
+        <option value="Confirmed">Confirmed Cases</option>
+        <option value="Deaths">Deaths</option>
+        <option value="Recovered">Recovered Cases</option>
+        <!-- Add more case types as needed -->
+    </select>
+
+    <!-- Add a div to contain your Leaflet map below the dropdowns -->
+    <div id="map" style="width: 100%; height: 400px;"></div>
+
+    <!-- Include your JavaScript code to populate the dropdowns and initialize the map -->
+    <script>
+        // Define an array of dates from January 2020 to July 2020
+        var dates = [];
+        var startDate = new Date("2020-01-01");
+        var endDate = new Date("2020-07-31");
+        var currentDate = startDate;
+        while (currentDate <= endDate) {
+            var formattedDate = currentDate.toISOString().split('T')[0];
+            dates.push(formattedDate);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        // Get a reference to the date dropdown
+        var dateDropdown = document.getElementById("dateDropdown");
+
+        // Populate the date dropdown
+        dates.forEach(function (date) {
+            var option = document.createElement("option");
+            option.value = date;
+            option.text = date;
+            dateDropdown.appendChild(option);
+        });
+
+        // Get a reference to the case type dropdown
+        var caseTypeDropdown = document.getElementById("caseTypeDropdown");
+
+        // Create a Leaflet map
+        var map = L.map('map').setView([51.505, -0.09], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Function to fetch COVID data and update the map
+        function fetchCovidData(selectedDate, selectedCaseType) {
+            // Update the API URL to your Flask API endpoint
+            var apiUrl = "http://127.0.0.1:5000/api/v1.0/covid?date=" + selectedDate + "&case_type=" + selectedCaseType;
+
+            fetch(apiUrl, {
+                mode: 'cors'  // Enable CORS
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+                    // Clear existing markers
+                    map.eachLayer(function (layer) {
+                        if (layer instanceof L.Marker) {
+                            map.removeLayer(layer);
+                        }
+                    });
+
+                    // Assuming the data includes latitude, longitude, and region information
+                    data.slice(1).forEach(function (record) { // Use slice(1) to skip the first record
+                        // Rest of your code to process the records
+                        var color = 'red'; // Default color (Deaths)
+                        if (selectedCaseType === 'Recovered') {
+                            color = 'green';
+                        } else if (selectedCaseType === 'Active') {
+                            color = 'blue';
+                        }
+
+                        // Convert 'Lat' and 'Long' to numbers
+                        var lat = parseFloat(record.Lat);
+                        var long = parseFloat(record.Long);
+
+                        // Check if 'Lat' and 'Long' are valid numbers
+                        if (!isNaN(lat) && !isNaN(long)) {
+                            // Create a custom icon with the specified color
+                            var customIcon = L.divIcon({
+                                className: 'custom-icon',
+                                html: '<div style="background-color:' + color + '"></div>',
+                                iconSize: [20, 20]
+                            });
+
+                            // Create a marker with the custom icon
+                            var marker = L.marker([lat, long], { icon: customIcon })
+                                .addTo(map)
+                                .bindPopup(`Date: ${record.Date}<br>${selectedCaseType}: ${record[selectedCaseType]}<br>Region: ${record.WHO_Region}`);
+                        } else {
+                            console.warn('Invalid Lat/Long values:', record.Lat, record.Long);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.error('Fetch error:', error);
+                });
+        }
+
+        // Add event listeners for dropdown changes
+        dateDropdown.addEventListener("change", function () {
+            var selectedDate = dateDropdown.value;
+            var selectedCaseType = caseTypeDropdown.value;
+            fetchCovidData(selectedDate, selectedCaseType);
+        });
+
+        caseTypeDropdown.addEventListener("change", function () {
+            var selectedDate = dateDropdown.value;
+            var selectedCaseType = caseTypeDropdown.value;
+            fetchCovidData(selectedDate, selectedCaseType);
+        });
+    </script>
+</body>
+</html>

@@ -53,26 +53,31 @@
     // Create a cluster layer
     var clusterLayer = L.markerClusterGroup();
 
+    // Function to populate the date filter dropdown
+    function populateDateFilter(data) {
+      var dateFilter = document.getElementById("dateFilter");
+      var uniqueDates = [...new Set(data.map(record => record.Date))];
+
+      uniqueDates.forEach(function (date) {
+        var option = document.createElement("option");
+        option.value = date;
+        option.text = date;
+        dateFilter.appendChild(option);
+      });
+
+      // Add an event listener to update the markers when the date changes
+      dateFilter.addEventListener("change", function (event) {
+        fetchData(event.target.value);
+      });
+    }
+
     // Fetch data from your Flask API and populate the date filter dropdown
     fetch('http://127.0.0.1:5000/api/v1.0/covid')
       .then(function (response) {
         return response.json();
       })
       .then(function (data) {
-        var dateFilter = document.getElementById("dateFilter");
-        var uniqueDates = [...new Set(data.map(record => record.Date))];
-
-        uniqueDates.forEach(function (date) {
-          var option = document.createElement("option");
-          option.value = date;
-          option.text = date;
-          dateFilter.appendChild(option);
-        });
-
-        // Add an event listener to update the markers when the date changes
-        dateFilter.addEventListener("change", function (event) {
-          fetchData(event.target.value);
-        });
+        populateDateFilter(data);
       })
       .catch(function (error) {
         console.log(error);

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 
 from flask import Flask, jsonify
-
+from flask_cors import CORS
 
 #################################################
 # Database Setup
@@ -25,7 +25,8 @@ clean = Base.classes.clean
 # Flask Setup
 #################################################
 app = Flask(__name__)
-
+# Configure CORS
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5000"}})
 
 #################################################
 # Flask Routes
