@@ -1,10 +1,8 @@
 import numpy as np
-
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
-
 from flask import Flask, jsonify
 from flask_cors import CORS
 
@@ -26,7 +24,7 @@ clean = Base.classes.clean
 #################################################
 app = Flask(__name__)
 # Configure CORS
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5000"}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 #################################################
 # Flask Routes
