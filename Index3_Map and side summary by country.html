@@ -41,9 +41,20 @@
       padding: 8px;
       text-align: left;
     }
+
+    /* Style for the title */
+    #title {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
+  <!-- Add the title to the center of the page -->
+  <div id="title">
+    <h1>COVID-19 Interactive Dashboard</h1>
+  </div>
   <!-- Create a date input field for filtering data -->
   <label for="dateFilter">Select a Date: </label>
   <select id="dateFilter"></select>
@@ -66,6 +77,11 @@
       </tbody>
     </table>
   </div>
+
+<!-- Add a canvas element for the bubble chart -->
+<div id="bubble-chart-container">
+  <canvas id="bubble-chart"></canvas>
+</div>
 
   <script>
     var map = L.map('map').setView([0, 0], 2);
@@ -135,8 +151,8 @@
       updateTable(selectedDate, data);
     }
 
-// Function to update the table with total confirmed cases
-function updateTable(selectedDate, data) {
+    // Function to update the table with total confirmed cases
+    function updateTable(selectedDate, data) {
       // Filter data for the selected date
       var filteredData = data.filter(record => record.Date === selectedDate);
 
@@ -177,15 +193,11 @@ function updateTable(selectedDate, data) {
       });
   </script>
 
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Include Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- Add a canvas element for the bubble chart -->
-<canvas id="bubble-chart"></canvas>
-
-<!-- JavaScript to create the bubble chart with top 20 different countries -->
-<script>
+  <!-- JavaScript to create the bubble chart with top 20 different countries -->
+  <script>
     // Function to create the bubble chart with top countries
     function createBubbleChartWithTopCountries(data) {
         // Group data by Country_Region and calculate total deaths
@@ -223,7 +235,7 @@ function updateTable(selectedDate, data) {
                 datasets: [{
                     label: 'Top 20 Countries by Deaths',
                     data: bubbleData,
-                    backgroundColor: 'rgba(255, 0, 0, 0.6)', 
+                    backgroundColor: 'rgba(255, 0, 0, 0.6)',
                 }],
             },
             options: {
@@ -251,11 +263,18 @@ function updateTable(selectedDate, data) {
                             },
                         },
                     },
+                    // Set the title for the bubble chart
+                    title: {
+                        display: true,
+                        text: 'Top Countries with Most Deaths',
+                        position: 'top',
+                        font: {
+                            size: 16,
+                        },
+                    },
                 },
             },
         });
-
-        
     }
 
     // Fetch data from your Flask API
@@ -269,14 +288,6 @@ function updateTable(selectedDate, data) {
         .catch(function (error) {
             console.log(error);
         });
-</script>
-
-
-
-
-
-
-
-
+  </script>
 </body>
 </html>
