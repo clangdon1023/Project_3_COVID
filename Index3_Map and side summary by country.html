@@ -289,5 +289,132 @@
             console.log(error);
         });
   </script>
+
+
+
+
+
+
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  /* Style for the bar graph container */
+  #bar-graph-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+  }
+</style>
+</head>
+<body>
+<!-- Add a bar graph container -->
+<div id="bar-graph-container">
+  <canvas id="bar-graph"></canvas>
+</div>
+
+<script>
+// Function to create the bar graph for recovered vs. active cases
+function createBarGraph(data) {
+    // Group data by Date and calculate total recovered and active cases
+    var groupedData = data.reduce(function (acc, record) {
+        var date = record.Date;
+        var recovered = parseInt(record.Recovered);
+        var active = parseInt(record.Active);
+
+        if (!acc[date]) {
+            acc[date] = {
+                date: date,
+                recovered: 0,
+                active: 0
+            };
+        }
+
+        acc[date].recovered += recovered;
+        acc[date].active += active;
+
+        return acc;
+    }, {});
+
+    var dates = Object.keys(groupedData);
+    var recoveredData = dates.map(date => groupedData[date].recovered);
+    var activeData = dates.map(date => groupedData[date].active);
+
+    var ctx = document.getElementById('bar-graph').getContext('2d');
+
+    // Create the bar graph for recovered vs. active cases
+    var barGraph = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: dates,
+            datasets: [
+                {
+                    label: 'Recovered Cases',
+                    data: recoveredData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Active Cases',
+                    data: activeData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Global Recovered vs Active Cases', // Add the title here
+                    fontSize: 16
+                },
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Cases'
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+  // Fetch data from your Flask API
+  fetch('http://127.0.0.1:5000/api/v1.0/covid')
+      .then(function (response) {
+          return response.json();
+      })
+      .then(function (data) {
+          createBarGraph(data);
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+</script>
 </body>
 </html>
+</body>
+</html>
+
