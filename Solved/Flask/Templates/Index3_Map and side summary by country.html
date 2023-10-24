@@ -4,33 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>COVID-19 Dashboard</title>
-  <!-- Include Leaflet CSS and JavaScript -->
+ 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-  <!-- Include MarkerCluster CSS and JavaScript -->
+  
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
-  <!-- Include D3.js -->
+
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
   <style>
-    /* Add some CSS styles for your map container */
+   
     #map {
       float: left;
       width: 50%;
       height: 400px;
     }
 
-    /* Style for the table container */
+  
     #table-container {
       float: right;
       width: 50%;
+      height: 400px;
+      overflow: auto;
     }
 
-    /* Style for the table */
+    
     table {
       width: 100%;
       border-collapse: collapse;
@@ -42,7 +44,7 @@
       text-align: left;
     }
 
-    /* Style for the title */
+   
     #title {
       text-align: center;
       font-size: 24px;
@@ -51,19 +53,19 @@
   </style>
 </head>
 <body>
-  <!-- Add the title to the center of the page -->
+  
   <div id="title">
     <h1>COVID-19 Interactive Dashboard</h1>
   </div>
-  <!-- Create a date input field for filtering data -->
+
   <label for="dateFilter">Select a Date: </label>
   <select id="dateFilter"></select>
   <br><br>
 
-  <!-- Create a map container -->
+  
   <div id="map"></div>
 
-  <!-- Create a container for the table -->
+  
   <div id="table-container">
     <table>
       <thead>
@@ -78,7 +80,7 @@
     </table>
   </div>
 
-<!-- Add a canvas element for the bubble chart -->
+
 <div id="bubble-chart-container">
   <canvas id="bubble-chart"></canvas>
 </div>
@@ -194,7 +196,7 @@
   </script>
 
   
-<!-- JavaScript to create the bubble chart with top 20 different countries -->
+
 <script>
   // Function to create the bubble chart with top countries
   function createBubbleChartWithTopCountries(data) {
@@ -297,7 +299,7 @@
 
 
 
-<!-- Include Chart.js library -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
