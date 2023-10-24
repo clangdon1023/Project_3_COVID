@@ -28,6 +28,7 @@ Requirements
 
 
 Instructions to Open Files:
+
     *Download the file "Project_3_COVID" and git clone it to your desktop using your Gitbash(windows)/Terminal(mac).
     
     *Change Directory "cd" until you get to the file "Flask"
