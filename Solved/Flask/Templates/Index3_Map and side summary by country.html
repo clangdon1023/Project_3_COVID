@@ -193,103 +193,105 @@
       });
   </script>
 
-  <!-- Include Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+<!-- JavaScript to create the bubble chart with top 20 different countries -->
+<script>
+  // Function to create the bubble chart with top countries
+  function createBubbleChartWithTopCountries(data) {
+    // Group data by Country_Region and calculate total deaths
+    var totals = data.reduce(function (acc, record) {
+      var country = record.Country_Region;
+      var deaths = parseInt(record.Deaths);
+      if (country in acc) {
+        acc[country] += deaths;
+      } else {
+        acc[country] = deaths;
+      }
+      return acc;
+    }, {});
 
-  <!-- JavaScript to create the bubble chart with top 20 different countries -->
-  <script>
-    // Function to create the bubble chart with top countries
-    function createBubbleChartWithTopCountries(data) {
-        // Group data by Country_Region and calculate total deaths
-        var totals = data.reduce(function (acc, record) {
-            var country = record.Country_Region;
-            var deaths = parseInt(record.Deaths);
-            if (country in acc) {
-                acc[country] += deaths;
-            } else {
-                acc[country] = deaths;
-            }
-            return acc;
-        }, {});
+    // Sort the totals in descending order
+    var sortedTotals = Object.entries(totals).sort((a, b) => b[1] - a[1]);
 
-        // Sort the totals in descending order
-        var sortedTotals = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+    // Take the top 20 different countries with the most deaths
+    var top20 = sortedTotals.slice(0, 20);
 
-        // Take the top 20 different countries with the most deaths
-        var top20 = sortedTotals.slice(0, 20);
+    var ctx = document.getElementById('bubble-chart').getContext('2d');
 
-        var ctx = document.getElementById('bubble-chart').getContext('2d');
+    // Create arrays for relevant x and y axis data
+    var countries = top20.map(country => country[0]);
+    var deaths = top20.map(country => country[1]);
 
-        // Create an array of data points for the bubble chart with top countries
-        var bubbleData = top20.map((country, index) => ({
-            x: (index + 1) * 50, 
-            y: Math.random() * 100, 
-            r: Math.sqrt(country[1]) * 0.05, 
-            label: country[0], 
-        }));
-
-        // Create the bubble chart with top countries
-        var bubbleChart = new Chart(ctx, {
-            type: 'bubble',
-            data: {
-                datasets: [{
-                    label: 'Top 20 Countries by Deaths',
-                    data: bubbleData,
-                    backgroundColor: 'rgba(255, 0, 0, 0.6)',
-                }],
+    // Create the bubble chart with top countries
+    var bubbleChart = new Chart(ctx, {
+      type: 'bubble',
+      data: {
+        datasets: [{
+          label: 'Top 20 Countries by Deaths',
+          data: top20.map((country, index) => ({
+            x: deaths[index], // X-axis: Deaths
+            y: index + 1,    // Y-axis: Country rank
+            r: Math.sqrt(country[1]) * 0.05,
+            label: country[0],
+          })),
+          backgroundColor: 'rgba(255, 0, 0, 0.6)',
+        }],
+      },
+      options: {
+        scales: {
+          x: {
+            beginAtZero: true,
+            display: true,
+            title: {
+              display: true,
+              text: 'Total Deaths',
             },
-            options: {
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        display: true,
-                        title: {
-                            display: true,
-                            text: 'Countries'
-                        }
-                    },
-                    y: {
-                        display: false, 
-                    },
-                },
-                plugins: {
-                    legend: {
-                        display: false, 
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                return `Country: ${context.dataset.data[context.dataIndex].label}\nDeaths: ${context.parsed.y}`;
-                            },
-                        },
-                    },
-                    // Set the title for the bubble chart
-                    title: {
-                        display: true,
-                        text: 'Top Countries with Most Deaths',
-                        position: 'top',
-                        font: {
-                            size: 16,
-                        },
-                    },
-                },
+          },
+          y: {
+            beginAtZero: true,
+            display: true,
+            title: {
+              display: true,
+              text: 'Top Countries',
             },
-        });
-    }
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return `Country: ${context.dataset.data[context.dataIndex].label}\nDeaths: ${context.parsed.x}`;
+              },
+            },
+          },
+          title: {
+            display: true,
+            text: 'Top Countries with Most Deaths',
+            position: 'top',
+            font: {
+              size: 16,
+            },
+          },
+        },
+      },
+    });
+  }
 
-    // Fetch data from your Flask API
-    fetch('http://127.0.0.1:5000/api/v1.0/covid')
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            createBubbleChartWithTopCountries(data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-  </script>
-
+  // Fetch data from your Flask API
+  fetch('http://127.0.0.1:5000/api/v1.0/covid')
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      createBubbleChartWithTopCountries(data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+</script>
 
 
 
