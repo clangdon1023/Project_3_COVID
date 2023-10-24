@@ -18,7 +18,7 @@ Requirements
 
   * Dashboard page with multiple charts that all reference the same data (Leaflet)
   * JavaScript Library not covered in class
-  * House the data in a SQL database
+  * House the data in a SQLite database
   * Create a Python Flask API
   * Includes a HTML/CSS
   * JavaScript
