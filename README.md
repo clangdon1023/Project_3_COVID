@@ -42,6 +42,8 @@ Instructions to Open Files:
 
 Once the file is open, there is a drop down menu with dates ranging from 1/22/2020-7/27/2020. You can select any of these dates and see the graphs change between each selection. 
 
+[
+](https://github.com/clangdon1023/Project_3_COVID/blob/main/Global%20Recovered%20vs%20Active%20cases.png)
 
 Project Credits: Clayton Langdon, Maxiel Liz, Samantha Barbey, Luke Pison, Aleksey Kozhokin, and Nikhil  
 
