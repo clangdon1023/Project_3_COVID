@@ -33,11 +33,11 @@ Instructions to Open Files:
     
     *Change Directory "cd" until you get to the file "Flask"
     
-    *Change directory "cd" again to get into the file named "app.py"
+    *Run terminal/bash from "app.py"
     
     *After this runs, there will be an http web browser. Copy that and paste it into Google Chrome/Safari.
     
-    *This will open up the flask program showing the graphs.
+    *This will open up the flask program showing the the interactive dashboard.
 
 
 Once the file is open, there is a drop down menu with dates ranging from 1/22/2020-7/27/2020. You can select any of these dates and see the graphs change between each selection. 
