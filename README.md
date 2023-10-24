@@ -41,8 +41,6 @@ Instructions to Open Files:
 
 Once the file is open, there is a drop down menu with dates ranging from 1/22/2020-7/27/2020. You can select any of these dates and see the graphs change between each selection. 
 
-[
-](http://127.0.0.1:5000/)
 
 Project Credits: Clayton Langdon, Maxiel Liz, Samantha Barbey, Luke Pison, Aleksey Kozhokin, and Nikhil  
 
