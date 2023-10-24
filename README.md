@@ -44,7 +44,18 @@ Once the file is open, there is a drop down menu with dates ranging from 1/22/20
 
 <img width="1184" alt="Global Recovered vs Active cases" src="https://github.com/clangdon1023/Project_3_COVID/assets/135924263/c938c680-421c-4468-8cb3-f463ccf4fa78">
 [
-](https://github.com/clangdon1023/Project_3_COVID/blob/main/Global%20Recovered%20vs%20Active%20cases.png)
 
+<img width="714" alt="Screen Shot 2023-10-24 at 6 17 46 PM" src="https://github.com/clangdon1023/Project_3_COVID/assets/135924263/a3b17aed-ed43-4a61-8be0-c9d2fea676c4">
+
+
+<img width="1327" alt="Screen Shot 2023-10-24 at 6 19 05 PM" src="https://github.com/clangdon1023/Project_3_COVID/assets/135924263/4b1833fc-cc04-482e-aa52-fb0a789b61b4">
+
+Sources: 
+
+[
+](https://www.kaggle.com/datasets/imdevskp/corona-virus-report)]
+
+[
+](https://clangdon1023.github.io/Project_3_COVID/)
 Project Credits: Clayton Langdon, Maxiel Liz, Samantha Barbey, Luke Pison, Aleksey Kozhokin, and Nikhil  
 
