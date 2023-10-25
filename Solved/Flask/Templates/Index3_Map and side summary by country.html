@@ -182,7 +182,7 @@
       rows.append("td").text(d => d[1]);
     }
 
-    // Fetch data from your Flask API and populate the date filter dropdown
+    // Fetch data 
     fetch('http://127.0.0.1:5000/api/v1.0/covid')
       .then(function (response) {
         return response.json();
@@ -282,7 +282,7 @@
     });
   }
 
-  // Fetch data from your Flask API
+  // Fetch data 
   fetch('http://127.0.0.1:5000/api/v1.0/covid')
     .then(function (response) {
       return response.json();
@@ -405,7 +405,7 @@ function createBarGraph(data) {
 }
 
 
-  // Fetch data from your Flask API
+  // Fetch data 
   fetch('http://127.0.0.1:5000/api/v1.0/covid')
       .then(function (response) {
           return response.json();
