@@ -7,21 +7,20 @@ Project Proposal
 Show the effects/spread of COVID-19 from 01/22/2020 - 07/27/2020
 
 Create 3 Unique Views of the Data
- * Filter by Continent, drill down to country
-    - World Map View of cases per country
- * Roll-up total of deaths
- * Sliding scale of spread over time
-    - Have a bubble shape over the map to show the spread
- * Narrow down to US visuals since that has the most data
+ * Filter by Date drill down to country
+    - Data Table of cases by Country
+ * Roll-up total of deaths in a Bubble Chart
+ * Bar Chart of spread over time
+
 
 Requirements
 
   * Dashboard page with multiple charts that all reference the same data (Leaflet)
-  * JavaScript Library not covered in class
+  * JavaScript Library not covered in class (chart.js)
   * House the data in a SQLite database
   * Create a Python Flask API
   * Includes a HTML/CSS
-  * JavaScript
+  * JavaScript, D3 
     
 
     This project was created to emphasize the importance of data keeping and organizing data for analysis. It also allowed us to learn and utilize different language platforms to merge data and create meaningful charts that interact with with the viewer making analyzation more understandable. With enough data, you can analyze different patterns and fluctuations in numbers. Included in this repository is COVID-19 data showing # of deaths, # of confirmed cases, and countries it affected from 1/22/2020-7/27/2020. The data was pulled from Kaggle into CSV files. These were then imported into Python, SQLite and then flask to create different graphs to show worldwide data collected through the pandemic. 
