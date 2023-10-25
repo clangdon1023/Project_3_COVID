@@ -23,9 +23,9 @@ Requirements
   * JavaScript, D3 
     
 
-    This project was created to emphasize the importance of data keeping and organizing data for analysis. It also allowed us to learn and utilize different language platforms to merge data and create meaningful charts that interact with with the viewer making analyzation more understandable. With enough data, you can analyze different patterns and fluctuations in numbers. Included in this repository is COVID-19 data showing # of deaths, # of confirmed cases, and countries it affected from 1/22/2020-7/27/2020. The data was pulled from Kaggle into CSV files. These were then imported into Python, SQLite and then flask to create different graphs to show worldwide data collected through the pandemic.
+    This project was created to emphasize the importance of data keeping and organizing data for analysis. It also allowed us to learn and utilize different language platforms to merge data and create meaningful charts that interact with with the viewer making analyzation more understandable. With enough data, you can analyze different patterns and fluctuations in numbers. Included in this repository is COVID-19 data showing # of deaths, # of confirmed cases, and countries it affected from 1/22/2020-7/27/2020. The data was pulled from Kaggle into CSV files. These were then imported into Jupyter Notebook & explored through Pandas datagrams. A SQLite database was made through python and then a flask app was created to serve the API. A HTML file was created using Javascript, Leaflet, D3, Plotly, and chart.js to parse the data for creation into different graphs that show worldwide data in our dataset.
 
-The Dashboard Page has been posted to the below github Page:
+The Dashboard Page has been posted to the following github Page:
 https://clangdon1023.github.io/Project_3_COVID/
 
 
